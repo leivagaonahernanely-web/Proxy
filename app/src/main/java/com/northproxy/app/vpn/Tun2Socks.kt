@@ -131,24 +131,26 @@ class Tun2Socks(
     private fun openUpstream(c: Conn) {
         Thread {
             try {
+                // Conexión al servidor SOCKS5 (no directamente al destino)
                 val s = Socket()
                 vpn.protect(s)
                 s.tcpNoDelay = true
-                s.connect(InetSocketAddress(intToIp(c.sIp), c.sPort), 8000)
+                s.connect(InetSocketAddress(socksHost, socksPort), 8000)
                 val inS = s.getInputStream()
                 val outS = s.getOutputStream()
+
+                // Saludo SOCKS5: sin autenticación
                 outS.write(byteArrayOf(0x05, 0x01, 0x00))
                 outS.flush()
                 val greet = ByteArray(2)
                 readFully(inS, greet)
                 if (greet[0].toInt() != 0x05 || greet[1].toInt() != 0x00) throw Exception("socks")
-                val hostBytes = intToIp(c.sIp).hostAddress!!.toByteArray(Charsets.US_ASCII)
-                val req = ByteArray(5 + hostBytes.size + 2)
-                req[0] = 0x05; req[1] = 0x01; req[2] = 0x00
-                req[3] = 0x03; req[4] = hostBytes.size.toByte()
-                hostBytes.copyInto(req, 5)
-                req[5 + hostBytes.size] = ((c.sPort ushr 8) and 0xFF).toByte()
-                req[6 + hostBytes.size] = (c.sPort and 0xFF).toByte()
+
+                // Petición CONNECT al destino original, en IPv4 (ATYP 0x01)
+                val req = ByteArray(10)
+                req[0] = 0x05; req[1] = 0x01; req[2] = 0x00; req[3] = 0x01
+                writeInt(req, 4, c.sIp)
+                writeShort(req, 8, c.sPort)
                 outS.write(req)
                 outS.flush()
                 val rep = ByteArray(10)
