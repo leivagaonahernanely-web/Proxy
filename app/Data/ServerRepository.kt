@@ -9,7 +9,7 @@ import java.net.URL
 object ServerRepository {
 
     private const val REMOTE_URL =
-        "https://raw.githubusercontent.com/TU_USUARIO/north-proxy/main/servers.json"
+        "https://github.com/leivagaonahernanely-web/Proxy.git"
 
     val fallback = listOf(
         ProxyServer("North · Santiago", "cl1.northmods.net", 1080, "CL"),
