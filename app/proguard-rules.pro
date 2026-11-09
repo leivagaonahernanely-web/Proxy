@@ -1,0 +1,4 @@
+-keep class com.northproxy.app.vpn.** { *; }
+-keep class com.northproxy.app.NorthApp { *; }
+-dontwarn okhttp3.**
+-dontwarn okio.**
