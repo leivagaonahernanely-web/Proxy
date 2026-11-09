@@ -1,0 +1,7 @@
+[
+  { "name": "North · Santiago", "host": "cl1.northmods.net", "port": 1080, "region": "CL", "dns": "1.1.1.1" },
+  { "name": "North · Miami", "host": "us1.northmods.net", "port": 1080, "region": "US", "dns": "1.1.1.1" },
+  { "name": "North · São Paulo", "host": "br1.northmods.net", "port": 1080, "region": "BR", "dns": "1.1.1.1" },
+  { "name": "North · Frankfurt", "host": "de1.northmods.net", "port": 1080, "region": "DE", "dns": "1.1.1.1" },
+  { "name": "North · Singapur", "host": "sg1.northmods.net", "port": 1080, "region": "SG", "dns": "1.1.1.1" }
+]
